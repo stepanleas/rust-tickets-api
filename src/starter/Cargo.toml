@@ -1,0 +1,27 @@
+[package]
+name = "starter"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+log.workspace = true
+env_logger.workspace = true
+actix-web.workspace = true
+tokio.workspace = true
+anyhow.workspace = true
+reqwest.workspace = true
+dotenv.workspace = true
+utoipa.workspace = true
+utoipa-actix-web.workspace = true
+utoipa-swagger-ui.workspace = true
+
+application = { path = "../application" }
+presentation = { path = "../presentation" }
+infrastructure = { path = "../infrastructure" }
+
+[dev-dependencies]
+testcontainers.workspace = true
+testcontainers-modules.workspace = true
+ctor.workspace = true
+serial_test.workspace = true
+uuid.workspace = true
