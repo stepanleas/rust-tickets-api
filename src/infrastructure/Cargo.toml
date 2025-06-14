@@ -4,3 +4,13 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+async-trait.workspace = true
+actix-web.workspace = true
+uuid.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+diesel.workspace = true
+diesel_migrations.workspace = true
+
+domain = { path = "../domain" }
+application = { path = "../application" }
