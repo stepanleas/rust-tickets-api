@@ -6,4 +6,7 @@ edition = "2024"
 [dependencies]
 serde.workspace = true
 uuid.workspace = true
-diesel.workspace = true
+thiserror.workspace = true
+strum.workspace = true
+strum_macros.workspace = true
+utoipa.workspace = true
