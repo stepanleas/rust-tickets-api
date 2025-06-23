@@ -1,0 +1,4 @@
+http_url = '127.0.0.1:8080'
+service_name = 'tickets_api'
+
+database_url = 'postgres://postgres:postgres@localhost:5432/tickets_db'
