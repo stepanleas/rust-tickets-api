@@ -1,0 +1,40 @@
+services:
+  tickets:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    container_name: tickets-container
+    environment:
+      APP_ENVIRONMENT: staging
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - tickets-network
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - tickets-network
+    volumes:
+      - postgres-rust:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "PGPASSWORD=postgres pg_isready -U postgres -h postgres" ]
+      interval: 10s
+      timeout: 30s
+      retries: 15
+
+volumes:
+  postgres-rust:
+
+networks:
+  tickets-network:
+    driver: bridge
