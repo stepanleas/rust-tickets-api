@@ -1,8 +1,8 @@
-use actix_web::{get, Error, HttpRequest, HttpResponse};
+use crate::responses::HealthCheckResponse;
+use actix_web::{get, Error, HttpRequest, HttpResponse, Responder};
+use serde_json::json;
 
 const HEALTH: &str = "Health";
-
-const OK_STATUS: &str = "Ok";
 
 /// Handles the health check for the application startup.
 ///
@@ -12,12 +12,12 @@ const OK_STATUS: &str = "Ok";
     context_path = "/api/health",
     tag = HEALTH,
     responses(
-        (status = 200, description = "Display application startup status", body = [String])
+        (status = 200, description = "Display application startup status", body = [HealthCheckResponse])
     ),
 )]
 #[get("/startup")]
-pub async fn startup(_: HttpRequest) -> actix_web::Result<HttpResponse, Error> {
-    Ok(HttpResponse::Ok().body(OK_STATUS))
+pub async fn startup(_: HttpRequest) -> actix_web::Result<impl Responder, Error> {
+    Ok(HttpResponse::Ok().json(json!({ "data": HealthCheckResponse::new() })))
 }
 
 /// Handles the health check for the application's live status.
@@ -28,12 +28,12 @@ pub async fn startup(_: HttpRequest) -> actix_web::Result<HttpResponse, Error> {
     context_path = "/api/health",
     tag = HEALTH,
     responses(
-        (status = 200, description = "Display application live status", body = [String])
+        (status = 200, description = "Display application live status", body = [HealthCheckResponse])
     ),
 )]
 #[get("/live")]
-pub async fn live(_: HttpRequest) -> actix_web::Result<HttpResponse, Error> {
-    Ok(HttpResponse::Ok().body(OK_STATUS))
+pub async fn live(_: HttpRequest) -> actix_web::Result<impl Responder, Error> {
+    Ok(HttpResponse::Ok().json(json!({ "data": HealthCheckResponse::new() })))
 }
 
 /// Handles the health check for the application's ready status.
@@ -44,10 +44,10 @@ pub async fn live(_: HttpRequest) -> actix_web::Result<HttpResponse, Error> {
     context_path = "/api/health",
     tag = HEALTH,
     responses(
-        (status = 200, description = "Display application ready status", body = [String])
+        (status = 200, description = "Display application ready status", body = [HealthCheckResponse])
     ),
 )]
 #[get("/ready")]
-pub async fn ready(_: HttpRequest) -> actix_web::Result<HttpResponse, Error> {
-    Ok(HttpResponse::Ok().body(OK_STATUS))
+pub async fn ready(_: HttpRequest) -> actix_web::Result<impl Responder, Error> {
+    Ok(HttpResponse::Ok().json(json!({ "data": HealthCheckResponse::new() })))
 }
