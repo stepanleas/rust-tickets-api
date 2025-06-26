@@ -19,7 +19,7 @@ const TICKETS: &str = "Tickets";
         (status = 200, description = "List current ticket items", body = [TicketResponse])
     )
 )]
-#[get("/")]
+#[get("")]
 pub async fn list_all(req: HttpRequest) -> Result<impl Responder, ApiError> {
     let state = req.app_data::<web::Data<AppState>>()
         .ok_or_else(|| ApiError::internal(anyhow!("Missing app state")))?;
@@ -66,7 +66,7 @@ pub async fn find_one(req: HttpRequest, id: Path<Uuid>) -> Result<impl Responder
     ),
     request_body = CreateTicketRequest,
 )]
-#[post("/")]
+#[post("")]
 pub async fn create(req: HttpRequest, request: ValidatedJson<CreateTicketRequest>) -> Result<impl Responder, ApiError> {
     let payload = request.into_inner();
 
