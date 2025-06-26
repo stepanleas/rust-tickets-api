@@ -4,8 +4,9 @@ use std::env;
 
 pub const DEFAULT_ENV_PREFIX_NAME: &str = "TICKETS";
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Settings {
+    pub environment: String,
     pub http_url: String,
     pub service_name: String,
     pub database_url: String,
@@ -14,6 +15,7 @@ pub struct Settings {
 impl Default for Settings {
     fn default() -> Self {
         Self {
+            environment: env::var("APP_ENVIRONMENT").unwrap_or_else(|_| "local".to_string()),
             http_url: "12.0.0.1:8080".into(),
             service_name: DEFAULT_ENV_PREFIX_NAME.into(),
             database_url: "postgres://postgres:postgres@localhost:5432/tickets_db".into(),

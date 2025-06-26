@@ -24,6 +24,7 @@ async fn run_internal(settings: &Settings) -> Result<Server> {
     let pool = infrastructure::configure(settings).await?;
 
     let app_state = AppState {
+        settings: settings.clone(),
         ticket_repository: Arc::new(PostgresTicketRepository::new(&pool)),
     };
 

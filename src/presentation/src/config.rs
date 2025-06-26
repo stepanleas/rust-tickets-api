@@ -17,4 +17,8 @@ pub fn configure(cfg: &mut ServiceConfig) {
             .service(api::ready)
             .service(api::live)
     );
+    cfg.service(
+        web::scope("/api/info")
+            .service(api::info)
+    );
 }

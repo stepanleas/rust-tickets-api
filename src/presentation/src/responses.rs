@@ -1,8 +1,8 @@
+use crate::validation::ValidationFieldError;
+use application::{Settings, TicketDto};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 use uuid::Uuid;
-use application::TicketDto;
-use crate::validation::ValidationFieldError;
 
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {
@@ -10,6 +10,18 @@ pub struct ErrorResponse {
     pub message: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub errors: Option<Vec<ValidationFieldError>>,
+}
+
+#[readonly::make]
+#[derive(Serialize, Deserialize, ToSchema)]
+pub struct AppInfoResponse {
+    environment: String,
+}
+
+impl AppInfoResponse {
+    pub fn new(settings: Settings) -> Self {
+        Self { environment: settings.environment }
+    }
 }
 
 #[readonly::make]
