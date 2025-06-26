@@ -1,8 +1,7 @@
 use crate::validation::ValidationFieldError;
-use application::{Settings, TicketDto};
+use application::Settings;
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
-use uuid::Uuid;
 
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {
@@ -21,25 +20,5 @@ pub struct AppInfoResponse {
 impl AppInfoResponse {
     pub fn new(settings: Settings) -> Self {
         Self { environment: settings.environment }
-    }
-}
-
-#[readonly::make]
-#[derive(Serialize, Deserialize, ToSchema)]
-pub struct TicketResponse {
-    id: Uuid,
-    title: String,
-    description: String,
-    status: String,
-}
-
-impl From<TicketDto> for TicketResponse {
-    fn from(ticket: TicketDto) -> Self {
-        Self {
-            id: ticket.id,
-            title: ticket.title,
-            description: ticket.description,
-            status: ticket.status,
-        }
     }
 }
