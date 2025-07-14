@@ -15,7 +15,7 @@ pub struct Settings {
 impl Default for Settings {
     fn default() -> Self {
         Self {
-            environment: env::var("APP_ENVIRONMENT").unwrap_or_else(|_| "local".to_string()),
+            environment: env::var("APP_ENVIRONMENT").unwrap_or_else(|_| "development".to_string()),
             http_url: "12.0.0.1:8080".into(),
             service_name: DEFAULT_ENV_PREFIX_NAME.into(),
             database_url: "postgres://postgres:postgres@localhost:5432/tickets_db".into(),
@@ -39,15 +39,15 @@ impl Settings {
 
 #[derive(Debug)]
 pub enum EnvironmentKind {
-    Local,
+    Development,
     Staging,
     Production,
 }
 
 impl EnvironmentKind {
     pub fn from_env() -> Result<Self, String> {
-        match env::var("APP_ENVIRONMENT").unwrap_or_else(|_| "local".into()).to_lowercase().as_str() {
-            "local" => Ok(Self::Local),
+        match env::var("APP_ENVIRONMENT").unwrap_or_else(|_| "development".into()).to_lowercase().as_str() {
+            "development" => Ok(Self::Development),
             "staging" => Ok(Self::Staging),
             "production" => Ok(Self::Production),
             other => Err(format!("Unsupported environment: {other}")),
@@ -56,7 +56,7 @@ impl EnvironmentKind {
 
     pub fn as_str(&self) -> &'static str {
         match self {
-            EnvironmentKind::Local => "local",
+            EnvironmentKind::Development => "development",
             EnvironmentKind::Staging => "staging",
             EnvironmentKind::Production => "production",
         }

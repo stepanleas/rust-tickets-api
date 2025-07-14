@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: tickets-container
     environment:
-      APP_ENVIRONMENT: development
+      APP_ENVIRONMENT: staging
     ports:
       - "8080:8080"
     depends_on:
