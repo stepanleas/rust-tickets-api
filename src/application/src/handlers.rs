@@ -1,8 +1,8 @@
+use crate::DeleteTicketCommand;
 use crate::commands::{CreateTicketCommand, UpdateTicketCommand};
 use crate::dtos::TicketDto;
 use crate::queries::FindTicketQuery;
 use crate::repositories::TicketRepository;
-use crate::DeleteTicketCommand;
 use domain::Ticket;
 use std::sync::Arc;
 
@@ -12,11 +12,15 @@ pub struct FindTicketQueryHandler {
 
 impl FindTicketQueryHandler {
     pub fn new(repository: Arc<dyn TicketRepository>) -> Self {
-        Self { repository: repository.clone() }
+        Self {
+            repository: repository.clone(),
+        }
     }
 
     pub async fn execute(&self, query: FindTicketQuery) -> anyhow::Result<TicketDto> {
-        self.repository.find_by_id(query.id.unwrap()).map(TicketDto::from)
+        self.repository
+            .find_by_id(query.id.unwrap())
+            .map(TicketDto::from)
     }
 }
 
@@ -26,11 +30,14 @@ pub struct ListAllTicketQueryHandler {
 
 impl ListAllTicketQueryHandler {
     pub fn new(repository: Arc<dyn TicketRepository>) -> Self {
-        Self { repository: repository.clone() }
+        Self {
+            repository: repository.clone(),
+        }
     }
 
     pub async fn execute(&self) -> anyhow::Result<Vec<TicketDto>> {
-        self.repository.list_all()
+        self.repository
+            .list_all()
             .map(|items| items.into_iter().map(TicketDto::from).collect())
     }
 }
@@ -41,7 +48,9 @@ pub struct CreateTicketCommandHandler {
 
 impl CreateTicketCommandHandler {
     pub fn new(repository: Arc<dyn TicketRepository>) -> Self {
-        Self { repository: repository.clone() }
+        Self {
+            repository: repository.clone(),
+        }
     }
 
     pub async fn execute(&self, command: CreateTicketCommand) -> anyhow::Result<TicketDto> {
@@ -57,7 +66,9 @@ pub struct UpdateTicketCommandHandler {
 
 impl UpdateTicketCommandHandler {
     pub fn new(repository: Arc<dyn TicketRepository>) -> Self {
-        Self { repository: repository.clone() }
+        Self {
+            repository: repository.clone(),
+        }
     }
 
     pub async fn execute(&self, command: UpdateTicketCommand) -> anyhow::Result<TicketDto> {
@@ -78,7 +89,9 @@ pub struct DeleteTicketCommandHandler {
 
 impl DeleteTicketCommandHandler {
     pub fn new(repository: Arc<dyn TicketRepository>) -> Self {
-        Self { repository: repository.clone() }
+        Self {
+            repository: repository.clone(),
+        }
     }
 
     pub async fn execute(&self, command: DeleteTicketCommand) -> anyhow::Result<()> {

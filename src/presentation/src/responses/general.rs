@@ -21,7 +21,9 @@ pub struct AppInfoResponse {
 
 impl AppInfoResponse {
     pub fn new(settings: Settings) -> Self {
-        Self { environment: settings.environment }
+        Self {
+            environment: settings.environment,
+        }
     }
 }
 
@@ -33,6 +35,8 @@ pub struct HealthCheckResponse {
 
 impl HealthCheckResponse {
     pub fn new() -> Self {
-        Self { status: OK_STATUS.to_string() }
+        Self {
+            status: OK_STATUS.to_string(),
+        }
     }
 }

@@ -1,7 +1,7 @@
-use diesel::{Connection, PgConnection};
 use application::Settings;
 use diesel::r2d2::{ConnectionManager, Pool};
-use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+use diesel::{Connection, PgConnection};
+use diesel_migrations::{EmbeddedMigrations, MigrationHarness, embed_migrations};
 
 pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("./src/migrations");
 

@@ -1,6 +1,6 @@
-mod api_ticket_routes;
 mod api_doc;
 mod api_health_check;
+mod api_ticket_routes;
 
 mod api_routes;
 

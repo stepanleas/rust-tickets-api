@@ -1,7 +1,7 @@
+use crate::DbPool;
 use crate::entities::TicketEntity;
 use crate::schema::tickets::dsl::tickets;
 use crate::schema::tickets::id;
-use crate::DbPool;
 use application::TicketRepository;
 use diesel::ExpressionMethods;
 use diesel::{OptionalExtension, QueryDsl, RunQueryDsl};
@@ -29,7 +29,8 @@ impl TicketRepository for PostgresTicketRepository {
     fn find_by_id(&self, entity_id: Uuid) -> anyhow::Result<Ticket> {
         let mut connection = self.pool.get()?;
 
-        let ticket_entity = tickets.filter(id.eq(entity_id))
+        let ticket_entity = tickets
+            .filter(id.eq(entity_id))
             .first::<TicketEntity>(&mut connection)
             .optional()?
             .ok_or(DomainError::NotFound { id: entity_id })?;

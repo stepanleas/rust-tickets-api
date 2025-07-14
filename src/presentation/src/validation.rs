@@ -2,8 +2,8 @@ use crate::error::ApiError;
 use actix_web::dev::Payload;
 use actix_web::web::Json;
 use actix_web::{FromRequest, HttpRequest};
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 use std::pin::Pin;
 use validator::Validate;
 
@@ -15,7 +15,7 @@ pub struct ValidationFieldError {
 
 pub struct ValidatedJson<T>(pub T);
 
-impl <T> ValidatedJson<T> {
+impl<T> ValidatedJson<T> {
     pub fn into_inner(self) -> T {
         self.0
     }
@@ -26,7 +26,6 @@ impl<T> From<T> for ValidatedJson<T> {
         ValidatedJson(value)
     }
 }
-
 
 impl<T> FromRequest for ValidatedJson<T>
 where
@@ -39,9 +38,9 @@ where
         let fut = Json::<T>::from_request(req, payload);
 
         Box::pin(async move {
-            let json = fut.await.map_err(|err| {
-                ApiError::bad_request(err.to_string())
-            })?;
+            let json = fut
+                .await
+                .map_err(|err| ApiError::bad_request(err.to_string()))?;
 
             json.validate()
                 .map(|_| ValidatedJson(json.into_inner()))

@@ -46,7 +46,11 @@ pub enum EnvironmentKind {
 
 impl EnvironmentKind {
     pub fn from_env() -> Result<Self, String> {
-        match env::var("APP_ENVIRONMENT").unwrap_or_else(|_| "development".into()).to_lowercase().as_str() {
+        match env::var("APP_ENVIRONMENT")
+            .unwrap_or_else(|_| "development".into())
+            .to_lowercase()
+            .as_str()
+        {
             "development" => Ok(Self::Development),
             "staging" => Ok(Self::Staging),
             "production" => Ok(Self::Production),

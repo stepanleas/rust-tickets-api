@@ -1,5 +1,6 @@
 use actix_web::dev::Server;
 use actix_web::middleware::Logger;
+use actix_web::web::Data;
 use actix_web::{App, HttpServer};
 use anyhow::Result;
 use application::Settings;
@@ -7,7 +8,6 @@ use infrastructure::PostgresTicketRepository;
 use log::{debug, info};
 use presentation::AppState;
 use std::sync::Arc;
-use actix_web::web::Data;
 use utoipa::OpenApi;
 use utoipa_actix_web::AppExt;
 use utoipa_swagger_ui::SwaggerUi;
@@ -40,8 +40,8 @@ async fn run_internal(settings: &Settings) -> Result<Server> {
             .app_data(Data::new(app_state.clone()))
             .into_app()
     })
-        .bind(&settings.http_url)?
-        .run();
+    .bind(&settings.http_url)?
+    .run();
 
     Ok(server)
 }

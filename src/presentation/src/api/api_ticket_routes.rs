@@ -4,9 +4,13 @@ use crate::requests::{CreateTicketRequest, UpdateTicketRequest};
 use crate::responses::TicketResponse;
 use crate::validation::ValidatedJson;
 use actix_web::web::Path;
-use actix_web::{delete, get, post, put, web, HttpRequest, HttpResponse, Responder};
+use actix_web::{HttpRequest, HttpResponse, Responder, delete, get, post, put, web};
 use anyhow::anyhow;
-use application::{CreateTicketCommand, CreateTicketCommandHandler, DeleteTicketCommand, DeleteTicketCommandHandler, FindTicketQuery, FindTicketQueryHandler, ListAllTicketQueryHandler, UpdateTicketCommand, UpdateTicketCommandHandler};
+use application::{
+    CreateTicketCommand, CreateTicketCommandHandler, DeleteTicketCommand,
+    DeleteTicketCommandHandler, FindTicketQuery, FindTicketQueryHandler, ListAllTicketQueryHandler,
+    UpdateTicketCommand, UpdateTicketCommandHandler,
+};
 use serde_json::json;
 use uuid::Uuid;
 
@@ -21,13 +25,15 @@ const TICKETS: &str = "Tickets";
 )]
 #[get("")]
 pub async fn list_all(req: HttpRequest) -> Result<impl Responder, ApiError> {
-    let state = req.app_data::<web::Data<AppState>>()
+    let state = req
+        .app_data::<web::Data<AppState>>()
         .ok_or_else(|| ApiError::internal(anyhow!("Missing app state")))?;
 
     let handler = ListAllTicketQueryHandler::new(state.ticket_repository.clone());
 
     let tickets = handler.execute().await?;
-    let data = tickets.into_iter()
+    let data = tickets
+        .into_iter()
         .map(TicketResponse::from)
         .collect::<Vec<TicketResponse>>();
 
@@ -46,7 +52,8 @@ pub async fn list_all(req: HttpRequest) -> Result<impl Responder, ApiError> {
 )]
 #[get("/{id}")]
 pub async fn find_one(req: HttpRequest, id: Path<Uuid>) -> Result<impl Responder, ApiError> {
-    let state = req.app_data::<web::Data<AppState>>()
+    let state = req
+        .app_data::<web::Data<AppState>>()
         .ok_or_else(|| ApiError::internal(anyhow!("Missing app state")))?;
 
     let handler = FindTicketQueryHandler::new(state.ticket_repository.clone());
@@ -67,10 +74,14 @@ pub async fn find_one(req: HttpRequest, id: Path<Uuid>) -> Result<impl Responder
     request_body = CreateTicketRequest,
 )]
 #[post("")]
-pub async fn create(req: HttpRequest, request: ValidatedJson<CreateTicketRequest>) -> Result<impl Responder, ApiError> {
+pub async fn create(
+    req: HttpRequest,
+    request: ValidatedJson<CreateTicketRequest>,
+) -> Result<impl Responder, ApiError> {
     let payload = request.into_inner();
 
-    let state = req.app_data::<web::Data<AppState>>()
+    let state = req
+        .app_data::<web::Data<AppState>>()
         .ok_or_else(|| ApiError::internal(anyhow!("Missing app state")))?;
 
     let handler = CreateTicketCommandHandler::new(state.ticket_repository.clone());
@@ -100,7 +111,8 @@ pub async fn update(
 ) -> Result<impl Responder, ApiError> {
     let payload = request.into_inner();
 
-    let state = req.app_data::<web::Data<AppState>>()
+    let state = req
+        .app_data::<web::Data<AppState>>()
         .ok_or_else(|| ApiError::internal(anyhow!("Missing app state")))?;
 
     let handler = UpdateTicketCommandHandler::new(state.ticket_repository.clone());
@@ -128,7 +140,8 @@ pub async fn update(
 )]
 #[delete("/{id}")]
 pub async fn delete(req: HttpRequest, id: Path<Uuid>) -> Result<impl Responder, ApiError> {
-    let state = req.app_data::<web::Data<AppState>>()
+    let state = req
+        .app_data::<web::Data<AppState>>()
         .ok_or_else(|| ApiError::internal(anyhow!("Missing app state")))?;
 
     let handler = DeleteTicketCommandHandler::new(state.ticket_repository.clone());

@@ -1,10 +1,10 @@
-use actix_web::{http::StatusCode, HttpResponse, ResponseError};
+use crate::responses::ErrorResponse;
+use crate::validation::ValidationFieldError;
+use actix_web::{HttpResponse, ResponseError, http::StatusCode};
 use anyhow::Error as AnyhowError;
 use domain::DomainError;
 use thiserror::Error;
 use validator::ValidationErrors;
-use crate::responses::ErrorResponse;
-use crate::validation::ValidationFieldError;
 
 #[derive(Debug, Error)]
 pub enum ApiError {
@@ -67,24 +67,29 @@ impl From<AnyhowError> for ApiError {
     }
 }
 
-
 impl ResponseError for ApiError {
     fn status_code(&self) -> StatusCode {
         match self {
-            ApiError::Generic { code: status_code, .. } => *status_code,
-            ApiError::Validation { code: status_code, .. } => *status_code,
+            ApiError::Generic {
+                code: status_code, ..
+            } => *status_code,
+            ApiError::Validation {
+                code: status_code, ..
+            } => *status_code,
         }
     }
 
     fn error_response(&self) -> HttpResponse {
         match self {
-            ApiError::Generic { code: status_code, message, .. } => {
-                HttpResponse::build(*status_code).json(ErrorResponse {
-                    code: u16::from(*status_code),
-                    message: message.clone(),
-                    errors: None,
-                })
-            }
+            ApiError::Generic {
+                code: status_code,
+                message,
+                ..
+            } => HttpResponse::build(*status_code).json(ErrorResponse {
+                code: u16::from(*status_code),
+                message: message.clone(),
+                errors: None,
+            }),
 
             ApiError::Validation {
                 code: status_code,

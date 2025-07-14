@@ -1,5 +1,5 @@
-use uuid::Uuid;
 use domain::TicketStatus;
+use uuid::Uuid;
 
 pub struct CreateTicketCommand {
     pub title: String,

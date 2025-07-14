@@ -1,9 +1,9 @@
 use diesel::r2d2::ConnectionManager;
-use diesel::{r2d2, PgConnection};
+use diesel::{PgConnection, r2d2};
 
 mod config;
-mod postgres_repository;
 mod entities;
+mod postgres_repository;
 mod schema;
 
 pub type DbPool = r2d2::Pool<ConnectionManager<PgConnection>>;

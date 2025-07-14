@@ -1,5 +1,5 @@
-use uuid::Uuid;
 use crate::enums::TicketStatus;
+use uuid::Uuid;
 
 pub struct Ticket {
     pub id: Uuid,

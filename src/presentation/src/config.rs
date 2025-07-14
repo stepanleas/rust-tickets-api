@@ -9,16 +9,13 @@ pub fn configure(cfg: &mut ServiceConfig) {
             .service(api::find_one)
             .service(api::create)
             .service(api::update)
-            .service(api::delete)
+            .service(api::delete),
     );
     cfg.service(
         web::scope("/api/health")
             .service(api::startup)
             .service(api::ready)
-            .service(api::live)
+            .service(api::live),
     );
-    cfg.service(
-        web::scope("/api/info")
-            .service(api::info)
-    );
+    cfg.service(web::scope("/api/info").service(api::info));
 }
