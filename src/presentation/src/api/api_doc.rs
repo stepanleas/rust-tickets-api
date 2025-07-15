@@ -1,11 +1,11 @@
 use crate::api::api_health_check::__path_live;
 use crate::api::api_health_check::__path_ready;
 use crate::api::api_health_check::__path_startup;
-use crate::api::api_ticket_routes::__path_create;
-use crate::api::api_ticket_routes::__path_delete;
-use crate::api::api_ticket_routes::__path_find_one;
-use crate::api::api_ticket_routes::__path_list_all;
-use crate::api::api_ticket_routes::__path_update;
+use crate::api::api_tickets::__path_create;
+use crate::api::api_tickets::__path_delete;
+use crate::api::api_tickets::__path_find_one;
+use crate::api::api_tickets::__path_list_all;
+use crate::api::api_tickets::__path_update;
 
 use utoipa::OpenApi;
 

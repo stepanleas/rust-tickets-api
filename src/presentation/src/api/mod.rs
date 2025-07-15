@@ -1,19 +1,19 @@
 mod api_doc;
 mod api_health_check;
-mod api_ticket_routes;
+mod api_tickets;
 
-mod api_routes;
+mod api_info;
 
 pub use api_doc::ApiDoc;
 
-pub use api_ticket_routes::create;
-pub use api_ticket_routes::delete;
-pub use api_ticket_routes::find_one;
-pub use api_ticket_routes::list_all;
-pub use api_ticket_routes::update;
+pub use api_tickets::create;
+pub use api_tickets::delete;
+pub use api_tickets::find_one;
+pub use api_tickets::list_all;
+pub use api_tickets::update;
 
 pub use api_health_check::live;
 pub use api_health_check::ready;
 pub use api_health_check::startup;
 
-pub use api_routes::info;
+pub use api_info::info;
